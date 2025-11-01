@@ -17,7 +17,7 @@ vector<int>a(n);
 for(int i=1;i<=n;i++)cin>>a[i];
 dp[1]=0,dp[2]=dp[1]+abs(a[2]-a[1]);
 
-for(int i=3;i<n;i++){
+for(int i=3;i<=n;i++){
 	dp[i]=min(dp[i-1]+abs(a[i]-a[i-1]),dp[i-2]+abs(a[i-2]-a[i]));
 }
 cout<<dp[n];

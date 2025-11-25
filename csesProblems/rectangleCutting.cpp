@@ -6,42 +6,36 @@ using namespace std;
 int mod=1e9+7;
 int gcd(int a,int b){if(b==0)return a;return gcd(b,a%b);}
 const int inf=1e18;
-const int N=501;
-int dp[N][N];
-int solveRec(int a,int b){
-    if(a>b){
-        swap(a,b);
-    }
-    if(a==b){
-        return 0;
-    }
-    if(dp[a][b]!=-1){
-        return dp[a][b];
-    }
-    int min_cuts=1e9;
-    for(int k=1;k<b;++k){
-        min_cuts=min(min_cuts,1+solveRec(a,k)+solveRec(a,b-k));
-    }
-    for(int k=1;k<a;++k){
-        min_cuts=min(min_cuts,1+solveRec(k,b)+solveRec(a-k,b));
-    }
-    dp[a][b]=min_cuts;
-    return min_cuts;
+const int N=1e5+10;
+
+int dp[505][505];
+int recursive_solve(int a,int b){
+    if(a==b)return 0;
+    if(a==0 || b==0)return 0;
+    if(a<b)swap(a,b);
+
+if(dp[a][b]!=-1)return dp[a][b];
+
+int minCuts=INT_MAX;
+for(int i=1;i<a;i++){
+    minCuts=min(minCuts,1+recursive_solve(i,b)+recursive_solve(a-i,b));
+}
+dp[a][b]=minCuts;
+return dp[a][b];
 }
 void solve(){
-    int a,b;
-    cin>>a>>b;
-    for(int i=0;i<=max(a,b);++i){
-        for(int j=0;j<=max(a,b);++j){
-            dp[i][j]=-1;
-        }
-    }
-    cout<<solveRec(a,b)<<nl;
+int n,m;cin>>n>>m;
+// dp[i][j] is the minimum number of cuts  required to convert i*j into squres .
+memset(dp,-1,sizeof(dp));
+int ans=recursive_solve(n,m);
+cout<<ans<<nl;
 }
+
 signed main(){
     ios_base::sync_with_stdio(0);
     cin.tie(0);cout.tie(0); 
     int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

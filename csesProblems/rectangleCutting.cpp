@@ -12,13 +12,17 @@ int dp[505][505];
 int recursive_solve(int a,int b){
     if(a==b)return 0;
     if(a==0 || b==0)return 0;
-    if(a<b)swap(a,b);
+    // if(a<b)swap(a,b);
 
 if(dp[a][b]!=-1)return dp[a][b];
 
 int minCuts=INT_MAX;
 for(int i=1;i<a;i++){
     minCuts=min(minCuts,1+recursive_solve(i,b)+recursive_solve(a-i,b));
+}
+for(int j=1;j<b;j++){
+    // Cut b into j and b-j. Resulting rectangles: a x j and a x (b-j)
+    minCuts=min(minCuts,1+recursive_solve(a,j)+recursive_solve(a,b-j));
 }
 dp[a][b]=minCuts;
 return dp[a][b];
